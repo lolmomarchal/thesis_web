@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tesis de Máster: Un Marco Modular para el Preprocesamiento y Aprendizaje de Instancias Múltiples Interpretable en el Análisis de Imágenes de Patología Completas de Cáncer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .gradient-text {
+            background: -webkit-linear-gradient(45deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .toc-link {
+            transition: all 0.3s ease;
+            border-left: 2px solid transparent;
+        }
+        .toc-link:hover, .toc-link.active {
+            color: #3b82f6;
+            border-left-color: #3b82f6;
+            transform: translateX(5px);
+        }
+        pre {
+            background-color: #1f2937;
+            color: #d1d5db;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            font-family: monospace;
+        }
+        code {
+            font-family: monospace;
+        }
+        .chart-container-sm { position: relative; width: 100%; max-width: 600px; margin-left: auto; margin-right: auto; height: 350px; max-height: 40vh; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Header -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                 <h1 class="text-xl md:text-2xl font-bold text-gray-800">Lorenzo Olmo Marchal</h1>
+                 <a href="https://www.linkedin.com/in/lorenzo-olmo-marchal-b80508271/" target="_blank" class="text-gray-500 hover:text-blue-600">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                    </svg>
+                 </a>
+            </div>
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="#abstract" class="text-gray-600 hover:text-blue-500 transition">Resumen</a>
+                <a href="#analysis" class="text-gray-600 hover:text-blue-500 transition">Análisis</a>
+                <a href="#presentation" class="text-gray-600 hover:text-blue-500 transition">Presentación</a>
+                <a href="#infographic" class="text-gray-600 hover:text-blue-500 transition">Infografía</a>
+                <a href="#thesis" class="text-gray-600 hover:text-blue-500 transition">Tesis</a>
+                <a href="#article" class="text-gray-600 hover:text-blue-500 transition">Artículo</a>
+                <a href="#code" class="text-gray-600 hover:text-blue-500 transition">Código</a>
+                <a href="#tutorial" class="text-gray-600 hover:text-blue-500 transition">Tutorial</a>
+                <a href="#license" class="text-gray-600 hover:text-blue-500 transition">Licencia</a>
+                <a href="index.html" title="English Version" class="ml-4">
+                    <svg class="w-6 h-auto rounded" viewBox="0 0 7410 3900" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="#b22234" d="M0 0h7410v3900H0z"/>
+                        <path d="M0 450h7410M0 1350h7410M0 2250h7410M0 3150h7410" stroke="#fff" stroke-width="300"/>
+                        <path fill="#3c3b6e" d="M0 0h2964v2100H0z"/>
+                        <g fill="#fff">
+                        <g id="s18">
+                        <g id="s9">
+                        <path id="s" d="M247 90l70 216-182-134h224L101 306z"/>
+                        <use href="#s" y="420"/>
+                        <use href="#s" y="840"/>
+                        <use href="#s" y="1260"/>
+                        </g>
+                        <use href="#s9" y="210"/>
+                        </g>
+                        <use href="#s18" x="247" y="105"/>
+                        <use href="#s18" x="494"/>
+                        <use href="#s18" x="741" y="105"/>
+                        <use href="#s18" x="988"/>
+                        <use href="#s18" x="1235" y="105"/>
+                        <use href="#s18" x="1482"/>
+                        <use href="#s18" x="1729" y="105"/>
+                        <use href="#s18" x="1976"/>
+                        <use href="#s18" x="2223" y="105"/>
+                        <use href="#s18" x="2470"/>
+                        </g>
+                    </svg>
+                </a>
+            </nav>
+            <button id="mobile-menu-button" class="md:hidden focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden px-6 pb-4">
+            <a href="#abstract" class="block py-2 text-gray-600 hover:text-blue-500">Resumen</a>
+            <a href="#analysis" class="block py-2 text-gray-600 hover:text-blue-500">Análisis</a>
+            <a href="#presentation" class="block py-2 text-gray-600 hover:text-blue-500">Presentación</a>
+            <a href="#infographic" class="block py-2 text-gray-600 hover:text-blue-500">Infografía</a>
+            <a href="#thesis" class="block py-2 text-gray-600 hover:text-blue-500">Tesis</a>
+            <a href="#article" class="block py-2 text-gray-600 hover:text-blue-500">Artículo</a>
+            <a href="#code" class="block py-2 text-gray-600 hover:text-blue-500">Código</a>
+            <a href="#tutorial" class="block py-2 text-gray-600 hover:text-blue-500">Tutorial</a>
+            <a href="#license" class="block py-2 text-gray-600 hover:text-blue-500">Licencia</a>
+            <a href="index.html" class="block py-2 text-gray-600 hover:text-blue-500">English Version</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-12">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl md:text-5xl font-extrabold mb-4 gradient-text">Un Marco Modular para el Preprocesamiento y Aprendizaje de Instancias Múltiples Interpretable en el Análisis de Imágenes de Patología Completas de Cáncer</h2>
+            <p class="text-lg text-gray-600">Tesis de Máster por Lorenzo Olmo Marchal | Universidad de California San Diego, 2025</p>
+            <p class="text-md text-gray-500 mt-2">Tutor: <a href="https://profiles.ucsd.edu/ludmil.alexandrov" target="_blank" class="text-blue-500 hover:underline">Prof. Ludmil B. Alexandrov</a> | <a href="https://alexandrov.cloud.ucsd.edu/home" target="_blank" class="text-blue-500 hover:underline">Alexandrov Lab</a></p>
+        </div>
+
+        <div class="flex flex-col lg:flex-row gap-12">
+            <!-- Left Sidebar for ToC -->
+            <aside class="w-full lg:w-1/4 lg:sticky top-24 self-start">
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="font-bold text-xl mb-4 border-b pb-2">Índice de Contenidos</h3>
+                    <nav id="toc-container" class="space-y-2">
+                        <!-- ToC will be dynamically generated here -->
+                    </nav>
+                </div>
+            </aside>
+
+            <!-- Right Content Area -->
+            <div class="w-full lg:w-3/4">
+                <div id="content-sections" class="space-y-16">
+                    <!-- Abstract Section -->
+                    <section id="abstract" class="bg-white p-8 rounded-lg shadow-lg scroll-mt-24">
+                        <h3 class="text-2xl font-bold mb-4">Resumen</h3>
+                        <p class="text-gray-700 leading-relaxed">
+                           La patología computacional ha surgido como una subespecialidad en rápido avance centrada en el análisis cuantitativo y a gran escala de datos patológicos como las Imágenes de Portaobjetos Completos (WSI). Como representaciones digitalizadas de alta resolución de portaobjetos de histología, las WSI contienen características diagnósticas relevantes que pueden ser aprovechadas por métodos computacionales como el aprendizaje profundo. Esta tesis aborda desafíos significativos en el preprocesamiento y la interpretabilidad de modelos dentro de la patología computacional. Las contribuciones principales son dos: primero, el desarrollo de <strong>SlideLab</strong>, un módulo de preprocesamiento novedoso y robusto diseñado para optimizar la creación de conjuntos de datos de WSI de alta calidad; segundo, la introducción de un nuevo método de interpretabilidad, <strong>Confianza Atencional Polarizada (PAC)</strong>, con una exploración de sus aplicaciones en modelos basados en atención para mejorar la transparencia y la fiabilidad de los sistemas de IA en patología.
+                        </p>
+                    </section>
+
+                    <!-- Analysis Section -->
+                    <section id="analysis" class="bg-white p-8 rounded-lg shadow-lg scroll-mt-24">
+                        <h3 class="text-2xl font-bold mb-4">Puntos Clave del Proyecto</h3>
+                        <div class="space-y-6">
+                            <div class="p-6 bg-gray-50 rounded-lg border">
+                                <h4 class="text-xl font-semibold mb-3 flex items-center">Análisis del Proyecto 🧠</h4>
+                                <p class="text-gray-700 leading-relaxed mb-4">Esta tesis aborda eficazmente dos de los obstáculos más significativos en la patología computacional: la falta de un <strong>preprocesamiento estandarizado</strong> y la <strong>interpretabilidad de los modelos de IA de "caja negra"</strong>. El proyecto se divide lógicamente en dos contribuciones principales:</p>
+                                <ul class="list-disc list-inside mt-4 space-y-2 pl-4 text-gray-700">
+                                    <li><strong>SlideLab (El Framework de Preprocesamiento):</strong> Una solución modular y completa a la naturaleza rígida e irreproducible de las herramientas existentes. Aborda los desafíos clave de las WSI, como el costo computacional, la variabilidad de la tinción y los artefactos, a través de una arquitectura sofisticada y acelerada por GPU.</li>
+                                    <li><strong>Confianza Atencional Polarizada (PAC) (El Método de Interpretabilidad):</strong> Un enfoque inteligente para abordar la confianza clínica en la IA. Al combinar la atención (importancia) y la probabilidad (confianza) de un modelo, PAC crea una métrica robusta para validar que los modelos están aprendiendo características biológicamente relevantes.</li>
+                                </ul>
+                            </div>
+                             <div class="p-6 bg-gray-50 rounded-lg border">
+                                <h4 class="text-xl font-semibold mb-3 flex items-center">Logros Clave 🏆</h4>
+                                <ul class="list-disc list-inside text-gray-700 space-y-2 pl-4">
+                                    <li><strong>Desarrollo de una Herramienta Novedosa y Completa:</strong> Se construyó un pipeline de software funcional de extremo a extremo, `SlideLab`, un logro de ingeniería significativo.</li>
+                                    <li><strong>Rendimiento Superior a través de Benchmarking:</strong> Se probó rigurosamente `SlideLab` contra otros cinco pipelines de última generación, logrando la puntuación Dice más alta (0.741) en la segmentación de tejidos.</li>
+                                    <li><strong>Mejora del Rendimiento del Modelo Descendente:</strong> Se demostró que un mejor preprocesamiento conduce a una mejor ciencia, ya que el modelo entrenado con datos procesados por `SlideLab` superó a los demás.</li>
+                                    <li><strong>Innovación en la Interpretabilidad de Modelos:</strong> La propuesta de PAC es una fuerte contribución metodológica adaptada a los desafíos específicos del aprendizaje de instancias múltiples en patología.</li>
+                                    <li><strong>Validación con Casos de Estudio del Mundo Real:</strong> Se aplicó con éxito PAC a problemas clínicamente relevantes en cáncer colorrectal y leucemia, demostrando su versatilidad.</li>
+                                </ul>
+                            </div>
+                             <div class="p-6 bg-gray-50 rounded-lg border">
+                                <h4 class="text-xl font-semibold mb-3 flex items-center">Resumen de Resultados 📊</h4>
+                                 <ul class="list-disc list-inside text-gray-700 space-y-2 pl-4">
+                                    <li><strong>SlideLab es Cuantificablemente Mejor:</strong> El framework produce datos de mayor calidad, evidenciado por puntuaciones Dice superiores y un mejor rendimiento del modelo descendente.</li>
+                                    <li><strong>PAC Proporciona una Visión Biológica Más Profunda:</strong> Los casos de estudio en MSI y B-ALL demostraron que PAC puede validar el razonamiento de un modelo al identificar correctamente características biológicas y clínicamente relevantes.</li>
+                                 </ul>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <!-- Presentation Section -->
+                    <section id="presentation" class="bg-white p-8 rounded-lg shadow-lg scroll-mt-24">
+                        <h3 class="text-2xl font-bold mb-4">Presentación de la Tesis</h3>
+                        <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden border">
+                           <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vTcRNQw8tuWOTNT9N4M-BG6-BgthZ8xFAdRBFbIXvUXN-DbKEyDU3ky53QZp3wOFqZVElVexLXJ-Lap/pubembed?start=false&loop=false&delayms=3000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+                        </div>
+                    </section>
+
+                    <!-- Infographic Section -->
+                    <section id="infographic" class="bg-white p-8 rounded-lg shadow-lg scroll-mt-24">
+                        <h3 class="text-2xl font-bold mb-4">Infografía de la Tesis</h3>
+                        <div class="bg-blue-50 p-6 rounded-lg border border-blue-200">
+                            <h4 class="text-2xl font-extrabold text-center mb-4" style="color: #003049;">Una Nueva Era en Patología Computacional</h4>
+                            <div class="grid md:grid-cols-2 gap-8 items-center">
+                                <div class="chart-container-sm">
+                                    <canvas id="performanceChartPreview"></canvas>
+                                </div>
+                                <div class="chart-container-sm">
+                                    <canvas id="artifactChartPreview"></canvas>
+                                </div>
+                            </div>
+                            <ul class="list-disc list-inside space-y-2 text-gray-700 my-6 max-w-2xl mx-auto">
+                                <li>El Desafío de las Imágenes de Portaobjetos Completos (WSI)</li>
+                                <li>Solución 1: SlideLab - Un Pipeline de Preprocesamiento Flexible</li>
+                                <li>SlideLab Supera a las Herramientas Existentes</li>
+                                <li>Solución 2: Confianza Atencional Polarizada (PAC)</li>
+                                <li>PAC en Acción: Casos de Estudio del Mundo Real</li>
+                            </ul>
+                            <div class="text-center">
+                                <a href="infographic_es.html" target="_blank" class="inline-block bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 transition shadow">
+                                    Ver Infografía Completa
+                                </a>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Thesis PDF Section -->
+                    <section id="thesis" class="bg-white p-8 rounded-lg shadow-lg scroll-mt-24">
+                        <h3 class="text-2xl font-bold mb-4">Documento de la Tesis</h3>
+                        <p class="mb-4">Lea la tesis completa para una comprensión detallada de la investigación, la metodología y los hallazgos.</p>
+                        <a href="thesis.pdf" download class="inline-block bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 transition shadow">
+                            Descargar Tesis en PDF
+                        </a>
+                    </section>
+                    
+                    <!-- Article In Preparation Section -->
+                    <section id="article" class="bg-white p-8 rounded-lg shadow-lg scroll-mt-24">
+                        <h3 class="text-2xl font-bold mb-4">Artículo en Preparación (Borrador)</h3>
+                        <p class="mb-4">Un artículo de investigación basado en esta tesis está actualmente en preparación. Un enlace a la publicación estará disponible aquí pronto.</p>
+                        <a href="slidelab_article_es.pdf" download class="inline-block bg-green-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-600 transition shadow">
+                            Descargar Borrador del Artículo
+                        </a>
+                    </section>
+
+                    <!-- Code Section -->
+                    <section id="code" class="bg-white p-8 rounded-lg shadow-lg scroll-mt-24">
+                        <h3 class="text-2xl font-bold mb-4">Código del Proyecto: SlideLab</h3>
+                         <img src="https://github.com/user-attachments/assets/1e89103a-e79b-484d-818f-17cfa828380d" alt="Flujo de Trabajo de SlideLab" class="rounded-lg mb-4 shadow-md">
+                        <p class="mb-4">El código fuente completo para el pipeline de preprocesamiento <strong>SlideLab</strong> está disponible en GitHub. Explore el repositorio para entender los detalles de la implementación y contribuir al proyecto.</p>
+                        <a href="https://github.com/lolmomarchal/SlideLab" target="_blank" class="inline-block bg-gray-800 text-white font-bold py-2 px-4 rounded-lg hover:bg-gray-900 transition shadow">
+                            Ver en GitHub
+                        </a>
+                    </section>
+
+                    <!-- Tutorial Section -->
+                    <section id="tutorial" class="bg-white p-8 rounded-lg shadow-lg scroll-mt-24">
+                        <h3 class="text-2xl font-bold mb-4">Tutorial de SlideLab</h3>
+                        
+                        <div class="space-y-8">
+                            <div>
+                                <h4 class="text-xl font-semibold mb-2">Instalación</h4>
+                                <p class="mb-4">Primero, clone el repositorio y navegue al directorio:</p>
+                                <pre><code>git clone https://github.com/lolmomarchal/SlideLab.git
+cd SlideLab</code></pre>
+                                <p class="mt-4 mb-4">Para instalar las dependencias requeridas, cree y active el entorno de Conda:</p>
+                                <pre><code>conda env create -f environment.yml
+conda activate slidelab</code></pre>
+                            </div>
+
+                            <div>
+                                <h4 class="text-xl font-semibold mb-2">Uso</h4>
+                                <p class="mb-4">A continuación se muestra un comando de ejemplo para ejecutar el pipeline de preprocesamiento:</p>
+                                <pre><code>python SlidePreprocessing.py -i /ruta/a/entrada/ -o /ruta/a/salida/ \
+-s 512 -m 40 --remove_blurry_tiles --normalize_staining --encode \
+-th 0.8 -bh 0.02 --device cuda --batch_size 256</code></pre>
+                            </div>
+
+                            <div>
+                                <h4 class="text-xl font-semibold mb-2">Argumentos</h4>
+                                <p class="mb-4">El comportamiento del pipeline se puede personalizar con los siguientes argumentos:</p>
+                                <div class="overflow-x-auto">
+                                    <table class="min-w-full bg-white border rounded-lg">
+                                        <thead class="bg-gray-100">
+                                            <tr>
+                                                <th class="text-left py-2 px-4 border-b">Argumento</th>
+                                                <th class="text-left py-2 px-4 border-b">Descripción</th>
+                                                <th class="text-left py-2 px-4 border-b">Predeterminado</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="bg-gray-50"><td colspan="3" class="font-bold py-2 px-4">Entrada/Salida (Requerido)</td></tr>
+                                            <tr><td class="py-2 px-4 border-b"><code>-i, --input_path</code></td><td class="py-2 px-4 border-b">Ruta al archivo(s) de entrada WSI</td><td class="py-2 px-4 border-b">Ninguno</td></tr>
+                                            <tr><td class="py-2 px-4 border-b"><code>-o, --output_path</code></td><td class="py-2 px-4 border-b">Ruta para guardar los mosaicos de salida</td><td class="py-2 px-4 border-b">Ninguno</td></tr>
+                                            
+                                            <tr class="bg-gray-50"><td colspan="3" class="font-bold py-2 px-4">Personalización de Mosaicos</td></tr>
+                                            <tr><td class="py-2 px-4 border-b"><code>-s, --desired_size</code></td><td class="py-2 px-4 border-b">Tamaño deseado de los mosaicos en píxeles</td><td class="py-2 px-4 border-b">256</td></tr>
+                                            <tr><td class="py-2 px-4 border-b"><code>-m, --desired_magnification</code></td><td class="py-2 px-4 border-b">Nivel de magnificación deseado (ej., 20)</td><td class="py-2 px-4 border-b">20</td></tr>
+                                            <tr><td class="py-2 px-4 border-b"><code>-ov, --overlap</code></td><td class="py-2 px-4 border-b">Factor de superposición entre mosaicos (1 = sin superposición)</td><td class="py-2 px-4 border-b">1</td></tr>
+
+                                            <tr class="bg-gray-50"><td colspan="3" class="font-bold py-2 px-4">Opciones de Preprocesamiento</td></tr>
+                                            <tr><td class="py-2 px-4 border-b"><code>-rb, --remove_blurry_tiles</code></td><td class="py-2 px-4 border-b">Eliminar mosaicos borrosos usando un filtro Laplaciano</td><td class="py-2 px-4 border-b">Falso</td></tr>
+                                            <tr><td class="py-2 px-4 border-b"><code>-n, --normalize_staining</code></td><td class="py-2 px-4 border-b">Normalizar la tinción de los mosaicos</td><td class="py-2 px-4 border-b">Falso</td></tr>
+                                            <tr><td class="py-2 px-4 border-b"><code>-e, --encode</code></td><td class="py-2 px-4 border-b">Codificar mosaicos en un archivo .h5</td><td class="py-2 px-4 border-b">Falso</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- License Section -->
+                    <section id="license" class="bg-white p-8 rounded-lg shadow-lg scroll-mt-24">
+                        <h3 class="text-2xl font-bold mb-4">Licencia</h3>
+                        <div class="text-sm text-gray-600 bg-gray-50 p-4 rounded border">
+                            <p class="font-bold mb-2">Licencia MIT</p>
+                            <p class="mb-2">Copyright (c) 2025 Lorenzo Olmo Marchal</p>
+                            <p class="mb-2">Por la presente se concede permiso, de forma gratuita, a cualquier persona que obtenga una copia de este software y de los archivos de documentación asociados (el "Software"), para tratar el Software sin restricciones, incluyendo, sin limitación, los derechos de uso, copia, modificación, fusión, publicación, distribución, sublicencia y/o venta de copias del Software, y para permitir a las personas a las que se les proporcione el Software que lo hagan, con sujeción a las siguientes condiciones:</p>
+                            <p class="mb-2">El aviso de copyright anterior y este aviso de permiso se incluirán en todas las copias o partes sustanciales del Software.</p>
+                            <p>EL SOFTWARE SE PROPORCIONA "TAL CUAL", SIN GARANTÍA DE NINGÚN TIPO, EXPRESA O IMPLÍCITA, INCLUYENDO, PERO NO LIMITADO A, LAS GARANTÍAS DE COMERCIABILIDAD, IDONEIDAD PARA UN PROPÓSITO PARTICULAR Y NO INFRACCIÓN. EN NINGÚN CASO LOS AUTORES O TITULARES DE LOS DERECHOS DE AUTOR SERÁN RESPONSABLES DE NINGUNA RECLAMACIÓN, DAÑO U OTRA RESPONSABILIDAD, YA SEA EN UNA ACCIÓN DE CONTRATO, AGRAVIO O DE OTRO TIPO, QUE SURJA DE, O EN CONEXIÓN CON EL SOFTWARE O EL USO U OTRAS OPERACIONES EN EL SOFTWARE.</p>
+                        </div>
+                    </section>
+                    
+                     <!-- Contact Section -->
+                    <section id="contact" class="bg-white p-8 rounded-lg shadow-lg scroll-mt-24">
+                        <h3 class="text-2xl font-bold mb-4">Contacto</h3>
+                        <p class="text-gray-700 leading-relaxed">
+                           Para preguntas o consultas, póngase en contacto con Lorenzo Olmo Marchal en <a href="mailto:aolmomarchal@ucsd.edu" class="text-blue-500 hover:underline">aolmomarchal@ucsd.edu</a> o conéctese en <a href="https://www.linkedin.com/in/lorenzo-olmo-marchal-b80508271/" target="_blank" class="text-blue-500 hover:underline">LinkedIn</a>.
+                        </p>
+                    </section>
+
+                    <!-- References Section -->
+                    <section id="references" class="bg-white p-8 rounded-lg shadow-lg scroll-mt-24">
+                        <h3 class="text-2xl font-bold mb-4">Referencias</h3>
+                        <ol class="list-decimal list-inside text-gray-700 space-y-2">
+                            <li>M. Macenko et al., "A method for normalizing histology slides for quantitative analysis," 2009 IEEE International Symposium on Biomedical Imaging: From Nano to Macro, Boston, MA, USA, 2009, pp. 1107-1110, doi: 10.1109/ISBI.2009.5193250.</li>
+                            <li>Barbano, C. A., & Pedersen, A. (2022, August). EIDOSLAB/torchstain: v1.2.0-stable (Version v1.2.0-stable) [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.6979540</li>
+                            <li>Chen, R.J., Ding, T., Lu, M.Y., Williamson, D.F.K., et al. Towards a general-purpose foundation model for computational pathology. Nat Med (2024). https://doi.org/10.1038/s41591-024-02857-3</li>
+                            <li>B. A. Schreiber, J. Denholm, F. Jaeckle, M. J. Arends, K. M. Branson, C.-B.Schönlieb, and E. J. Soilleux. Bang and the artefacts are gone! Rapid artefact removal and tissue segmentation in haematoxylin and eosin stained biopsies, 2023. URL http://arxiv.org/abs/2308.13304.</li>
+                        </ol>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white mt-12 border-t">
+        <div class="container mx-auto px-6 py-6 text-center text-gray-600">
+            <p>&copy; 2025 Lorenzo Olmo Marchal. Todos los derechos reservados.</p>
+             <div class="flex justify-center space-x-6 mt-4">
+                <a href="https://www.linkedin.com/in/lorenzo-olmo-marchal-b80508271/" target="_blank" class="text-gray-500 hover:text-blue-600">LinkedIn</a>
+                <a href="https://profiles.ucsd.edu/ludmil.alexandrov" target="_blank" class="text-gray-500 hover:text-blue-600">Tutor</a>
+                <a href="https://alexandrov.cloud.ucsd.edu/home" target="_blank" class="text-gray-500 hover:text-blue-600">Alexandrov Lab</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Mobile menu toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Dynamic Table of Contents generation
+            const tocContainer = document.getElementById('toc-container');
+            const sections = document.querySelectorAll('#content-sections section');
+            sections.forEach(section => {
+                const title = section.querySelector('h3').textContent;
+                const id = section.id;
+                const link = document.createElement('a');
+                link.href = `#${id}`;
+                link.textContent = title;
+                link.className = 'block toc-link pl-4 py-1 text-gray-600 hover:text-blue-500';
+                tocContainer.appendChild(link);
+            });
+
+            // Active link highlighting for ToC on scroll
+            const tocLinks = document.querySelectorAll('.toc-link');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const id = entry.target.getAttribute('id');
+                    const link = document.querySelector(`.toc-link[href="#${id}"]`);
+                    if (entry.isIntersecting) {
+                        tocLinks.forEach(l => l.classList.remove('active'));
+                        link.classList.add('active');
+                    }
+                });
+            }, { rootMargin: "-30% 0px -70% 0px" });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            // Infographic preview chart
+            const performanceData = {
+                labels: ['SlideLab', 'STAMP', 'CLAM', 'SlideFlow', 'TiaToolBox'],
+                datasets: [{
+                    label: 'Puntuación Dice Media',
+                    data: [0.741, 0.714, 0.665, 0.613, 0.353],
+                    backgroundColor: ['#3b82f6', '#93c5fd', '#93c5fd', '#93c5fd', '#93c5fd'],
+                    borderColor: '#1e40af',
+                    borderWidth: 1,
+                }]
+            };
+
+            new Chart(document.getElementById('performanceChartPreview'), {
+                type: 'bar',
+                data: performanceData,
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: { x: { beginAtZero: true } },
+                    plugins: {
+                        legend: { display: false },
+                        title: { display: true, text: 'Rendimiento de la Segmentación de Tejidos' }
+                    }
+                }
+            });
+            
+            // Artifact preview chart
+            const artifactData = {
+                labels: ['Regiones Borrosas', 'Marcas de Bolígrafo', 'Pliegues de Tejido', 'Otros Artefactos', 'Tejido Limpio'],
+                datasets: [{
+                    label: 'Composición de una WSI Típica',
+                    data: [15, 10, 8, 5, 62],
+                    backgroundColor: ['#ef4444', '#f97316', '#eab308', '#84cc16', '#22c55e'],
+                }]
+            };
+
+            new Chart(document.getElementById('artifactChartPreview'), {
+                type: 'doughnut',
+                data: artifactData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'top' },
+                        title: { display: true, text: 'Composición Típica de Artefactos en WSI' }
+                    }
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

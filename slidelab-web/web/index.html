@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MS Thesis: A Modular Framework for Preprocessing and Interpretable Multi-Instance Learning in Cancer Whole Slide Image Analysis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .gradient-text {
+            background: -webkit-linear-gradient(45deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .toc-link {
+            transition: all 0.3s ease;
+            border-left: 2px solid transparent;
+        }
+        .toc-link:hover, .toc-link.active {
+            color: #3b82f6;
+            border-left-color: #3b82f6;
+            transform: translateX(5px);
+        }
+        pre {
+            background-color: #1f2937;
+            color: #d1d5db;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            font-family: monospace;
+        }
+        code {
+            font-family: monospace;
+        }
+        .chart-container-sm { position: relative; width: 100%; max-width: 600px; margin-left: auto; margin-right: auto; height: 350px; max-height: 40vh; }
+
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Header -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                 <h1 class="text-xl md:text-2xl font-bold text-gray-800">Lorenzo Olmo Marchal</h1>
+                 <a href="https://www.linkedin.com/in/lorenzo-olmo-marchal-b80508271/" target="_blank" class="text-gray-500 hover:text-blue-600">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                    </svg>
+                 </a>
+            </div>
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="#abstract" class="text-gray-600 hover:text-blue-500 transition">Abstract</a>
+                <a href="#analysis" class="text-gray-600 hover:text-blue-500 transition">Analysis</a>
+                <a href="#presentation" class="text-gray-600 hover:text-blue-500 transition">Presentation</a>
+                <a href="#infographic" class="text-gray-600 hover:text-blue-500 transition">Infographic</a>
+                <a href="#thesis" class="text-gray-600 hover:text-blue-500 transition">Thesis</a>
+                <a href="#article" class="text-gray-600 hover:text-blue-500 transition">Article</a>
+                <a href="#code" class="text-gray-600 hover:text-blue-500 transition">Code</a>
+                <a href="#tutorial" class="text-gray-600 hover:text-blue-500 transition">Tutorial</a>
+                <a href="#license" class="text-gray-600 hover:text-blue-500 transition">License</a>
+                <a href="index_es.html" title="Versión en español" class="ml-4">
+                    <svg class="w-6 h-auto rounded" viewBox="0 0 3 2" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="3" height="2" fill="#c60b1e"/>
+                        <rect width="3" height="1" y="0.5" fill="#ffc400"/>
+                    </svg>
+                </a>
+            </nav>
+            <button id="mobile-menu-button" class="md:hidden focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden px-6 pb-4">
+            <a href="#abstract" class="block py-2 text-gray-600 hover:text-blue-500">Abstract</a>
+            <a href="#analysis" class="block py-2 text-gray-600 hover:text-blue-500">Analysis</a>
+            <a href="#presentation" class="block py-2 text-gray-600 hover:text-blue-500">Presentation</a>
+            <a href="#infographic" class="block py-2 text-gray-600 hover:text-blue-500">Infographic</a>
+            <a href="#thesis" class="block py-2 text-gray-600 hover:text-blue-500">Thesis</a>
+            <a href="#article" class="block py-2 text-gray-600 hover:text-blue-500">Article</a>
+            <a href="#code" class="block py-2 text-gray-600 hover:text-blue-500">Code</a>
+            <a href="#tutorial" class="block py-2 text-gray-600 hover:text-blue-500">Tutorial</a>
+            <a href="#license" class="block py-2 text-gray-600 hover:text-blue-500">License</a>
+            <a href="index_es.html" class="block py-2 text-gray-600 hover:text-blue-500">Versión en español</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-12">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl md:text-5xl font-extrabold mb-4 gradient-text">A Modular Framework for Preprocessing and Interpretable Multi-Instance Learning in Cancer Whole Slide Image Analysis</h2>
+            <p class="text-lg text-gray-600">M.S. Thesis by Lorenzo Olmo Marchal | University of California San Diego, 2025</p>
+            <p class="text-md text-gray-500 mt-2">Advisor: <a href="https://profiles.ucsd.edu/ludmil.alexandrov" target="_blank" class="text-blue-500 hover:underline">Prof. Ludmil B. Alexandrov</a> | <a href="https://alexandrov.cloud.ucsd.edu/home" target="_blank" class="text-blue-500 hover:underline">Alexandrov Lab</a></p>
+        </div>
+
+        <div class="flex flex-col lg:flex-row gap-12">
+            <!-- Left Sidebar for ToC -->
+            <aside class="w-full lg:w-1/4 lg:sticky top-24 self-start">
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="font-bold text-xl mb-4 border-b pb-2">Table of Contents</h3>
+                    <nav id="toc-container" class="space-y-2">
+                        <!-- ToC will be dynamically generated here -->
+                    </nav>
+                </div>
+            </aside>
+
+            <!-- Right Content Area -->
+            <div class="w-full lg:w-3/4">
+                <div id="content-sections" class="space-y-16">
+                    <!-- Abstract Section -->
+                    <section id="abstract" class="bg-white p-8 rounded-lg shadow-lg scroll-mt-24">
+                        <h3 class="text-2xl font-bold mb-4">Abstract</h3>
+                        <p class="text-gray-700 leading-relaxed">
+                           Computational pathology has emerged as a rapidly advancing subspecialty focused on the quantitative, large-scale analysis of pathological data like Whole Slide Images (WSIs). As high-resolution digitized representations of histology slides, WSIs contain diagnostically relevant features that can be leveraged by computational methods such as deep learning. This thesis addresses significant challenges in preprocessing and model interpretability within computational pathology. The core contributions are twofold: first, the development of <strong>SlideLab</strong>, a novel and robust preprocessing module designed to optimize the creation of high-quality WSI datasets; second, the introduction of a new interpretability method, <strong>Polarized Attentional Confidence (PAC)</strong>, with an exploration of its applications in attention-based models to enhance the transparency and trustworthiness of AI systems in pathology.
+                        </p>
+                    </section>
+
+                    <!-- Analysis Section -->
+                    <section id="analysis" class="bg-white p-8 rounded-lg shadow-lg scroll-mt-24">
+                        <h3 class="text-2xl font-bold mb-4">Project Highlights</h3>
+                        <div class="space-y-6">
+                            <div class="p-6 bg-gray-50 rounded-lg border">
+                                <h4 class="text-xl font-semibold mb-3 flex items-center">Project Analysis 🧠</h4>
+                                <p class="text-gray-700 leading-relaxed mb-4">This thesis effectively tackles two of the most significant hurdles in computational pathology: the lack of <strong>standardized preprocessing</strong> and the <strong>interpretability of "black box" AI models</strong>. The project is logically divided into two main contributions:</p>
+                                <ul class="list-disc list-inside mt-4 space-y-2 pl-4 text-gray-700">
+                                    <li><strong>SlideLab (The Preprocessing Framework):</strong> A modular and comprehensive solution to the rigid and irreproducible nature of existing tools. It addresses key WSI challenges like computational cost, stain variability, and artifacts through a sophisticated, GPU-accelerated architecture.</li>
+                                    <li><strong>Polarized Attentional Confidence (PAC) (The Interpretability Method):</strong> An intelligent approach to address clinical trust in AI. By combining a model's attention (importance) and probability (confidence), PAC creates a robust metric to validate that models are learning biologically relevant features.</li>
+                                </ul>
+                            </div>
+                             <div class="p-6 bg-gray-50 rounded-lg border">
+                                <h4 class="text-xl font-semibold mb-3 flex items-center">Key Achievements 🏆</h4>
+                                <ul class="list-disc list-inside text-gray-700 space-y-2 pl-4">
+                                    <li><strong>Development of a Novel and Complete Tool:</strong> Built a functional, end-to-end software pipeline, `SlideLab`, a significant engineering accomplishment.</li>
+                                    <li><strong>Superior Performance Through Benchmarking:</strong> Rigorously tested `SlideLab` against five other state-of-the-art pipelines, achieving the highest Dice score (0.741) for tissue segmentation.</li>
+                                    <li><strong>Improved Downstream Model Performance:</strong> Demonstrated that better preprocessing leads to better science, as the model trained on `SlideLab`-processed data outperformed others.</li>
+                                    <li><strong>Innovation in Model Interpretability:</strong> Proposed PAC as a new method tailored to the specific challenges of multi-instance learning in pathology.</li>
+                                    <li><strong>Validation with Real-World Case Studies:</strong> Successfully applied PAC to clinically relevant problems in colorectal cancer and leukemia, demonstrating its versatility.</li>
+                                </ul>
+                            </div>
+                             <div class="p-6 bg-gray-50 rounded-lg border">
+                                <h4 class="text-xl font-semibold mb-3 flex items-center">Summary of Results 📊</h4>
+                                 <ul class="list-disc list-inside text-gray-700 space-y-2 pl-4">
+                                    <li><strong>SlideLab is Quantifiably Better:</strong> The framework produces higher-quality data, evidenced by superior Dice scores and improved downstream model performance.</li>
+                                    <li><strong>PAC Provides Deeper Biological Insight:</strong> Case studies in MSI and B-ALL demonstrated that PAC can validate a model's reasoning by correctly identifying biologically and clinically relevant features.</li>
+                                 </ul>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Presentation Section -->
+                    <section id="presentation" class="bg-white p-8 rounded-lg shadow-lg scroll-mt-24">
+                        <h3 class="text-2xl font-bold mb-4">Thesis Presentation</h3>
+                        <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden border">
+                           <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vTcRNQw8tuWOTNT9N4M-BG6-BgthZ8xFAdRBFbIXvUXN-DbKEyDU3ky53QZp3wOFqZVElVexLXJ-Lap/pubembed?start=false&loop=false&delayms=3000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+                        </div>
+                    </section>
+
+                    <!-- Infographic Section -->
+                    <section id="infographic" class="bg-white p-8 rounded-lg shadow-lg scroll-mt-24">
+                        <h3 class="text-2xl font-bold mb-4">Thesis Infographic</h3>
+                        <div class="bg-blue-50 p-6 rounded-lg border border-blue-200">
+                            <h4 class="text-2xl font-extrabold text-center mb-4" style="color: #003049;">A New Era in Computational Pathology</h4>
+                            <div class="grid md:grid-cols-2 gap-8 items-center">
+                                <div class="chart-container-sm">
+                                    <canvas id="performanceChartPreview"></canvas>
+                                </div>
+                                <div class="chart-container-sm">
+                                    <canvas id="artifactChartPreview"></canvas>
+                                </div>
+                            </div>
+                            <ul class="list-disc list-inside space-y-2 text-gray-700 my-6 max-w-2xl mx-auto">
+                                <li>The Challenge with Whole Slide Images (WSIs)</li>
+                                <li>Solution 1: SlideLab - A Flexible Preprocessing Pipeline</li>
+                                <li>SlideLab Outperforms Existing Tools</li>
+                                <li>Solution 2: Polarized Attentional Confidence (PAC)</li>
+                                <li>PAC in Action: Real-World Case Studies</li>
+                            </ul>
+                            <div class="text-center">
+                                <a href="infographic.html" target="_blank" class="inline-block bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 transition shadow">
+                                    View Full Infographic
+                                </a>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Thesis PDF Section -->
+                    <section id="thesis" class="bg-white p-8 rounded-lg shadow-lg scroll-mt-24">
+                        <h3 class="text-2xl font-bold mb-4">Thesis Document</h3>
+                        <p class="mb-4">Read the full thesis for a detailed understanding of the research, methodology, and findings.</p>
+                        <a href="thesis.pdf" download class="inline-block bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 transition shadow">
+                            Download Thesis PDF
+                        </a>
+                    </section>
+                    
+                    <!-- Article In Preparation Section -->
+                    <section id="article" class="bg-white p-8 rounded-lg shadow-lg scroll-mt-24">
+                        <h3 class="text-2xl font-bold mb-4">Article in Preparation (Draft)</h3>
+                        <p class="mb-4">A research article based on this thesis is currently in preparation. A link to the publication will be available here soon.</p>
+                        <a href="slidelab_article.pdf" download class="inline-block bg-green-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-600 transition shadow">
+                            Download Article Draft
+                        </a>
+                    </section>
+
+                    <!-- Code Section -->
+                    <section id="code" class="bg-white p-8 rounded-lg shadow-lg scroll-mt-24">
+                        <h3 class="text-2xl font-bold mb-4">Project Code: SlideLab</h3>
+                         <img src="https://github.com/user-attachments/assets/1e89103a-e79b-484d-818f-17cfa828380d" alt="SlideLab Workflow" class="rounded-lg mb-4 shadow-md">
+                        <p class="mb-4">The complete source code for the <strong>SlideLab</strong> preprocessing pipeline is available on GitHub. Explore the repository to understand the implementation details and contribute to the project.</p>
+                        <a href="https://github.com/lolmomarchal/SlideLab" target="_blank" class="inline-block bg-gray-800 text-white font-bold py-2 px-4 rounded-lg hover:bg-gray-900 transition shadow">
+                            View on GitHub
+                        </a>
+                    </section>
+
+                    <!-- Tutorial Section -->
+                    <section id="tutorial" class="bg-white p-8 rounded-lg shadow-lg scroll-mt-24">
+                        <h3 class="text-2xl font-bold mb-4">SlideLab Tutorial</h3>
+                        
+                        <div class="space-y-8">
+                            <div>
+                                <h4 class="text-xl font-semibold mb-2">Installation</h4>
+                                <p class="mb-4">First, clone the repository and navigate into the directory:</p>
+                                <pre><code>git clone https://github.com/lolmomarchal/SlideLab.git
+cd SlideLab</code></pre>
+                                <p class="mt-4 mb-4">To install the required dependencies, create and activate the Conda environment:</p>
+                                <pre><code>conda env create -f environment.yml
+conda activate slidelab</code></pre>
+                            </div>
+
+                            <div>
+                                <h4 class="text-xl font-semibold mb-2">Usage</h4>
+                                <p class="mb-4">Below is an example command to run the preprocessing pipeline:</p>
+                                <pre><code>python SlidePreprocessing.py -i /path/to/input/ -o /path/to/output/ \
+-s 512 -m 40 --remove_blurry_tiles --normalize_staining --encode \
+-th 0.8 -bh 0.02 --device cuda --batch_size 256</code></pre>
+                            </div>
+
+                            <div>
+                                <h4 class="text-xl font-semibold mb-2">Arguments</h4>
+                                <p class="mb-4">The pipeline behavior can be customized with the following arguments:</p>
+                                <div class="overflow-x-auto">
+                                    <table class="min-w-full bg-white border rounded-lg">
+                                        <thead class="bg-gray-100">
+                                            <tr>
+                                                <th class="text-left py-2 px-4 border-b">Argument</th>
+                                                <th class="text-left py-2 px-4 border-b">Description</th>
+                                                <th class="text-left py-2 px-4 border-b">Default</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="bg-gray-50"><td colspan="3" class="font-bold py-2 px-4">Input/Output (Required)</td></tr>
+                                            <tr><td class="py-2 px-4 border-b"><code>-i, --input_path</code></td><td class="py-2 px-4 border-b">Path to the input WSI file(s)</td><td class="py-2 px-4 border-b">None</td></tr>
+                                            <tr><td class="py-2 px-4 border-b"><code>-o, --output_path</code></td><td class="py-2 px-4 border-b">Path to save the output tiles</td><td class="py-2 px-4 border-b">None</td></tr>
+                                            
+                                            <tr class="bg-gray-50"><td colspan="3" class="font-bold py-2 px-4">Tile Customization</td></tr>
+                                            <tr><td class="py-2 px-4 border-b"><code>-s, --desired_size</code></td><td class="py-2 px-4 border-b">Desired size of tiles in pixels</td><td class="py-2 px-4 border-b">256</td></tr>
+                                            <tr><td class="py-2 px-4 border-b"><code>-m, --desired_magnification</code></td><td class="py-2 px-4 border-b">Desired magnification level (e.g., 20)</td><td class="py-2 px-4 border-b">20</td></tr>
+                                            <tr><td class="py-2 px-4 border-b"><code>-ov, --overlap</code></td><td class="py-2 px-4 border-b">Factor of overlap between tiles (1 = no overlap)</td><td class="py-2 px-4 border-b">1</td></tr>
+
+                                            <tr class="bg-gray-50"><td colspan="3" class="font-bold py-2 px-4">Preprocessing Options</td></tr>
+                                            <tr><td class="py-2 px-4 border-b"><code>-rb, --remove_blurry_tiles</code></td><td class="py-2 px-4 border-b">Remove blurry tiles using a Laplacian filter</td><td class="py-2 px-4 border-b">False</td></tr>
+                                            <tr><td class="py-2 px-4 border-b"><code>-n, --normalize_staining</code></td><td class="py-2 px-4 border-b">Normalize staining of the tiles</td><td class="py-2 px-4 border-b">False</td></tr>
+                                            <tr><td class="py-2 px-4 border-b"><code>-e, --encode</code></td><td class="py-2 px-4 border-b">Encode tiles into an .h5 file</td><td class="py-2 px-4 border-b">False</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    
+                     <!-- License Section -->
+                    <section id="license" class="bg-white p-8 rounded-lg shadow-lg scroll-mt-24">
+                        <h3 class="text-2xl font-bold mb-4">License</h3>
+                        <div class="text-sm text-gray-600 bg-gray-50 p-4 rounded border">
+                            <p class="font-bold mb-2">MIT License</p>
+                            <p class="mb-2">Copyright (c) 2025 Lorenzo Olmo Marchal</p>
+                            <p class="mb-2">Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+                            <p class="mb-2">The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+                            <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+                        </div>
+                    </section>
+
+                     <!-- Contact Section -->
+                    <section id="contact" class="bg-white p-8 rounded-lg shadow-lg scroll-mt-24">
+                        <h3 class="text-2xl font-bold mb-4">Contact</h3>
+                        <p class="text-gray-700 leading-relaxed">
+                           For questions or inquiries, please contact Lorenzo Olmo Marchal at <a href="mailto:aolmomarchal@ucsd.edu" class="text-blue-500 hover:underline">aolmomarchal@ucsd.edu</a> or connect on <a href="https://www.linkedin.com/in/lorenzo-olmo-marchal-b80508271/" target="_blank" class="text-blue-500 hover:underline">LinkedIn</a>.
+                        </p>
+                    </section>
+
+                    <!-- References Section -->
+                    <section id="references" class="bg-white p-8 rounded-lg shadow-lg scroll-mt-24">
+                        <h3 class="text-2xl font-bold mb-4">References</h3>
+                        <ol class="list-decimal list-inside text-gray-700 space-y-2">
+                            <li>M. Macenko et al., "A method for normalizing histology slides for quantitative analysis," 2009 IEEE International Symposium on Biomedical Imaging: From Nano to Macro, Boston, MA, USA, 2009, pp. 1107-1110, doi: 10.1109/ISBI.2009.5193250.</li>
+                            <li>Barbano, C. A., & Pedersen, A. (2022, August). EIDOSLAB/torchstain: v1.2.0-stable (Version v1.2.0-stable) [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.6979540</li>
+                            <li>Chen, R.J., Ding, T., Lu, M.Y., Williamson, D.F.K., et al. Towards a general-purpose foundation model for computational pathology. Nat Med (2024). https://doi.org/10.1038/s41591-024-02857-3</li>
+                            <li>B. A. Schreiber, J. Denholm, F. Jaeckle, M. J. Arends, K. M. Branson, C.-B.Schönlieb, and E. J. Soilleux. Bang and the artefacts are gone! Rapid artefact removal and tissue segmentation in haematoxylin and eosin stained biopsies, 2023. URL http://arxiv.org/abs/2308.13304.</li>
+                        </ol>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white mt-12 border-t">
+        <div class="container mx-auto px-6 py-6 text-center text-gray-600">
+            <p>&copy; 2025 Lorenzo Olmo Marchal. All rights reserved.</p>
+             <div class="flex justify-center space-x-6 mt-4">
+                <a href="https://www.linkedin.com/in/lorenzo-olmo-marchal-b80508271/" target="_blank" class="text-gray-500 hover:text-blue-600">LinkedIn</a>
+                <a href="https://profiles.ucsd.edu/ludmil.alexandrov" target="_blank" class="text-gray-500 hover:text-blue-600">Advisor</a>
+                <a href="https://alexandrov.cloud.ucsd.edu/home" target="_blank" class="text-gray-500 hover:text-blue-600">Alexandrov Lab</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Mobile menu toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Dynamic Table of Contents generation
+            const tocContainer = document.getElementById('toc-container');
+            const sections = document.querySelectorAll('#content-sections section');
+            sections.forEach(section => {
+                const title = section.querySelector('h3').textContent;
+                const id = section.id;
+                const link = document.createElement('a');
+                link.href = `#${id}`;
+                link.textContent = title;
+                link.className = 'block toc-link pl-4 py-1 text-gray-600 hover:text-blue-500';
+                tocContainer.appendChild(link);
+            });
+
+            // Active link highlighting for ToC on scroll
+            const tocLinks = document.querySelectorAll('.toc-link');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const id = entry.target.getAttribute('id');
+                    const link = document.querySelector(`.toc-link[href="#${id}"]`);
+                    if (entry.isIntersecting) {
+                        tocLinks.forEach(l => l.classList.remove('active'));
+                        link.classList.add('active');
+                    }
+                });
+            }, { rootMargin: "-30% 0px -70% 0px" });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            // Infographic preview chart
+            const performanceData = {
+                labels: ['SlideLab', 'STAMP', 'CLAM', 'SlideFlow', 'TiaToolBox'],
+                datasets: [{
+                    label: 'Mean Dice Score',
+                    data: [0.741, 0.714, 0.665, 0.613, 0.353],
+                    backgroundColor: ['#3b82f6', '#93c5fd', '#93c5fd', '#93c5fd', '#93c5fd'],
+                    borderColor: '#1e40af',
+                    borderWidth: 1,
+                }]
+            };
+
+            new Chart(document.getElementById('performanceChartPreview'), {
+                type: 'bar',
+                data: performanceData,
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: { x: { beginAtZero: true } },
+                    plugins: {
+                        legend: { display: false },
+                        title: { display: true, text: 'Tissue Segmentation Performance' }
+                    }
+                }
+            });
+            
+            // Artifact preview chart
+            const artifactData = {
+                labels: ['Blurry Regions', 'Pen Marks', 'Tissue Folds', 'Other Artifacts', 'Clean Tissue'],
+                datasets: [{
+                    label: 'Composition of a Typical WSI',
+                    data: [15, 10, 8, 5, 62],
+                    backgroundColor: ['#ef4444', '#f97316', '#eab308', '#84cc16', '#22c55e'],
+                }]
+            };
+
+            new Chart(document.getElementById('artifactChartPreview'), {
+                type: 'doughnut',
+                data: artifactData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'top' },
+                        title: { display: true, text: 'Typical WSI Artifact Composition' }
+                    }
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
