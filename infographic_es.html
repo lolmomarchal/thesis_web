@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Chosen Palette: Energetic & Playful -->
+    <!-- Application Structure Plan: The infographic follows a narrative structure. It starts with a high-level introduction to the problem in computational pathology. It then dives into the first solution, SlideLab, detailing its features and benchmarking its superior performance. A new 'Impact' section summarizes the project's key achievements and results. Finally, it introduces the second solution, PAC, explaining its methodology and demonstrating its value through two distinct case studies (MSI and B-ALL). This thematic, story-driven approach was chosen to guide the user from the general problem to the specific, validated solutions, making the complex research accessible and memorable. Key interactions include hover effects on diagrams and tooltips on charts to provide deeper insights without cluttering the main view. -->
+    <!-- Visualization & Content Choices: 
+        - **Problem Section:** Uses large stat cards (HTML/CSS) to inform and highlight key challenges (stain variability, artifacts).
+        - **SlideLab Workflow:** A process flow diagram (HTML/CSS Flexbox) is used to organize the steps of the pipeline. Goal: Organize. Interaction: Hover to highlight stages. Justification: Clearly shows the modular and comprehensive nature of the tool.
+        - **Performance Comparison:** A horizontal bar chart (Chart.js) is used to compare SlideLab's Dice score against competitors. Goal: Compare. Interaction: Tooltips on bars. Justification: Bar charts are ideal for direct quantitative comparison across categories.
+        - **Impact Section:** Uses a three-column card layout (HTML/CSS Grid) with icons to summarize the project's analysis, achievements, and results. Goal: Inform/Organize. Justification: This format makes dense analytical text scannable and visually engaging.
+        - **PAC Methodology:** A simple flow diagram (HTML/CSS) explains the calculation. Goal: Organize. Interaction: None. Justification: A static diagram is sufficient to explain the straightforward multiplication process.
+        - **PAC Applications:** A two-column layout (HTML/CSS Grid) shows the dual benefits of visualization and quantification. Goal: Compare. Justification: Side-by-side comparison effectively communicates the two primary use cases.
+        - **B-ALL Case Study:** A bubble chart (Chart.js) visualizes multi-dimensional flow cytometry data. Goal: Relationships. Interaction: Tooltips reveal exact values. Justification: Bubble charts excel at showing relationships between multiple variables (marker, expression level, importance) in a single view.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <title>Infografía: Un Marco Modular para Patología Computacional</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #FDF0D5; }
+        .card { background-color: #FFFFFF; border-radius: 1rem; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); padding: 2rem; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
+        h1, h2, h3 { font-weight: 800; }
+        .highlight-text { color: #C81D25; }
+        .chart-container { position: relative; width: 100%; max-width: 800px; margin-left: auto; margin-right: auto; height: 400px; max-height: 50vh; }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <main class="container mx-auto p-4 md:p-8">
+        
+        <header class="text-center my-12">
+            <h1 class="text-4xl md:text-6xl font-extrabold" style="color: #003049;">Una Nueva Era en Patología Computacional</h1>
+            <p class="mt-4 text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">Avanzando en la investigación del cáncer a través de un marco de preprocesamiento modular (SlideLab) y un novedoso método de interpretabilidad (PAC).</p>
+        </header>
+
+        <section id="problem" class="my-16">
+            <h2 class="text-3xl md:text-4xl text-center mb-10 font-extrabold" style="color: #003049;">El Desafío de las Imágenes de Portaobjetos Completos (WSI)</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="card text-center">
+                    <div class="text-6xl mb-4">🔬</div>
+                    <h3 class="text-2xl font-bold mb-2" style="color: #D62828;">Inconsistencia de Datos</h3>
+                    <p class="text-gray-600">Las variaciones en la tinción H&E y las resoluciones de escaneo entre instituciones crean sesgos significativos, dificultando el desarrollo de modelos de IA generalizables.</p>
+                </div>
+                <div class="card text-center">
+                    <div class="text-6xl mb-4">🎨</div>
+                    <h3 class="text-2xl font-bold mb-2" style="color: #D62828;">Artefactos Penetrantes</h3>
+                    <p class="text-gray-600">Las WSI a menudo están contaminadas con artefactos como marcas de bolígrafo, pliegues de tejido y regiones desenfocadas que pueden engañar a los modelos de IA y corromper los resultados.</p>
+                </div>
+                <div class="card text-center">
+                    <div class="text-6xl mb-4">📦</div>
+                    <h3 class="text-2xl font-bold mb-2" style="color: #D62828;">El Problema de la "Caja Negra"</h3>
+                    <p class="text-gray-600">La incapacidad de entender por qué un modelo toma una decisión específica erosiona la confianza clínica y crea una barrera para la adopción en el mundo real.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="slidelab" class="my-16">
+            <h2 class="text-3xl md:text-4xl text-center mb-10 font-extrabold" style="color: #003049;">Solución 1: SlideLab - Un Pipeline de Preprocesamiento Flexible</h2>
+             <div class="card">
+                <p class="text-center text-lg text-gray-600 mb-8">SlideLab es un marco modular de alto rendimiento diseñado para estandarizar los datos de WSI manejando robustamente artefactos e inconsistencias. Su arquitectura flexible permite a los investigadores construir pipelines personalizados adaptados a sus necesidades específicas.</p>
+                <div class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-4 text-center">
+                    <div class="p-4 rounded-lg bg-blue-50 border border-blue-200">
+                        <h4 class="font-bold text-lg" style="color: #003049;">Procesamiento a Nivel de Portaobjetos</h4>
+                        <p class="text-sm text-gray-600">Segmentación de Tejidos y Eliminación de Artefactos</p>
+                    </div>
+                    <div class="text-2xl font-bold" style="color: #F77F00;">→</div>
+                    <div class="p-4 rounded-lg bg-blue-50 border border-blue-200">
+                        <h4 class="font-bold text-lg" style="color: #003049;">Procesamiento a Nivel de Mosaico</h4>
+                        <p class="text-sm text-gray-600">Normalización de Tinción y Control de Calidad</p>
+                    </div>
+                    <div class="text-2xl font-bold" style="color: #F77F00;">→</div>
+                     <div class="p-4 rounded-lg bg-blue-50 border border-blue-200">
+                        <h4 class="font-bold text-lg" style="color: #003049;">Extracción de Características</h4>
+                        <p class="text-sm text-gray-600">(Opcional) ResNet50, UNI, etc.</p>
+                    </div>
+                    <div class="text-2xl font-bold" style="color: #F77F00;">→</div>
+                    <div class="p-4 rounded-lg bg-green-50 border border-green-200">
+                        <h4 class="font-bold text-lg" style="color: #003049;">Dataset de Alta Calidad</h4>
+                        <p class="text-sm text-gray-600">Listo para Análisis Posteriores</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="performance" class="my-16">
+             <h2 class="text-3xl md:text-4xl text-center mb-10 font-extrabold" style="color: #003049;">SlideLab Supera a las Herramientas Existentes</h2>
+            <div class="card">
+                 <p class="text-center text-lg text-gray-600 mb-8">Al ser comparado con otros cinco pipelines de preprocesamiento populares, SlideLab demostró un rendimiento superior en la segmentación de tejidos, logrando la Puntuación Dice más alta contra una referencia de estándar de oro.</p>
+                <div class="chart-container">
+                    <canvas id="performanceChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section id="impact" class="my-16">
+            <h2 class="text-3xl md:text-4xl text-center mb-10 font-extrabold" style="color: #003049;">Impacto y Logros del Proyecto</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="card">
+                    <h3 class="text-2xl font-bold mb-3 text-center" style="color: #003049;">Análisis del Proyecto 🧠</h3>
+                    <ul class="list-none space-y-3 text-gray-600">
+                        <li><strong class="text-gray-800">Aborda Problemas Centrales:</strong> Responde a las necesidades críticas de preprocesamiento estandarizado e IA interpretable.</li>
+                        <li><strong class="text-gray-800">Contribuciones Dobles:</strong> Ofrece tanto una herramienta práctica (`SlideLab`) como un método analítico novedoso (`PAC`).</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3 class="text-2xl font-bold mb-3 text-center" style="color: #003049;">Logros Clave 🏆</h3>
+                    <ul class="list-none space-y-3 text-gray-600">
+                         <li><strong class="text-gray-800">Desarrollo de Herramienta Novedosa:</strong> Se construyó un pipeline de software completo y funcional desde cero.</li>
+                        <li><strong class="text-gray-800">Rendimiento Superior:</strong> Logró la puntuación Dice más alta (0.741) en benchmarks rigurosos contra 5 competidores.</li>
+                        <li><strong class="text-gray-800">Mejora en Resultados de Modelos:</strong> Demostró que los datos procesados con SlideLab conducen a un mejor rendimiento del modelo.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3 class="text-2xl font-bold mb-3 text-center" style="color: #003049;">Resumen de Resultados 📊</h3>
+                    <ul class="list-none space-y-3 text-gray-600">
+                        <li><strong class="text-gray-800">Datos Cuantificablemente Mejores:</strong> `SlideLab` produce datos de mayor calidad, probados por métricas superiores.</li>
+                        <li><strong class="text-gray-800">Visión Biológica Profunda:</strong> `PAC` validó con éxito el razonamiento del modelo en casos de estudio de MSI y B-ALL, vinculando las predicciones con la biología conocida.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="pac" class="my-16">
+            <h2 class="text-3xl md:text-4xl text-center mb-10 font-extrabold" style="color: #003049;">Solución 2: Confianza Atencional Polarizada (PAC)</h2>
+            <div class="card">
+                <p class="text-center text-lg text-gray-600 mb-8">PAC es un novedoso método de interpretabilidad que aumenta la confianza en los modelos de "caja negra" al identificar las regiones de la imagen que son tanto **importantes** para la decisión del modelo como clasificadas con **alta confianza**.</p>
+                <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-8 p-6 bg-gray-50 rounded-lg">
+                    <div class="text-center">
+                        <p class="font-bold text-xl" style="color: #003049;">Puntuación de Atención</p>
+                        <p class="text-gray-600">(Importancia)</p>
+                    </div>
+                    <div class="text-4xl font-bold" style="color: #D62828;">×</div>
+                    <div class="text-center">
+                        <p class="font-bold text-xl" style="color: #003049;">Puntuación de Probabilidad</p>
+                        <p class="text-gray-600">(Confianza)</p>
+                    </div>
+                    <div class="text-4xl font-bold" style="color: #D62828;">=</div>
+                    <div class="text-center p-4 rounded-lg" style="background-color: #FCBF49;">
+                        <p class="font-bold text-2xl" style="color: #003049;">Puntuación PAC</p>
+                        <p class="text-gray-700">(Visión Interpretable)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="case-studies" class="my-16">
+            <h2 class="text-3xl md:text-4xl text-center mb-10 font-extrabold" style="color: #003049;">PAC en Acción: Casos de Estudio Reales</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="card">
+                    <h3 class="text-2xl font-bold mb-4 text-center" style="color: #D62828;">Caso de Estudio 1: Instabilidad de Microsatélites (MSI)</h3>
+                    <p class="text-gray-600 mb-4">En el cáncer colorrectal, PAC confirmó que el modelo de IA identificó correctamente las regiones con alta infiltración de linfocitos como indicativas de tumores MSI-Alto, lo que se alinea perfectamente con la biología clínica conocida. Esto valida que el modelo aprendió características biológicas significativas.</p>
+                    <div class="p-4 bg-gray-50 rounded-lg text-center">
+                        <p class="font-bold text-lg text-green-600">Resultado: Mayor confianza y validación biológica.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3 class="text-2xl font-bold mb-4 text-center" style="color: #D62828;">Caso de Estudio 2: Leucemia Linfoblástica Aguda de Células B (B-ALL)</h3>
+                    <p class="text-gray-600 mb-4">Al aplicarse a datos de citometría de flujo, PAC reveló que el modelo distinguía las células de B-ALL de sus imitadores benignos al centrarse en células con alta expresión de biomarcadores clave como CD10 y CD34.</p>
+                     <div class="chart-container h-96">
+                        <canvas id="ballChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <footer class="text-center p-8 mt-12 border-t" style="background-color: #003049; color: #FDF0D5;">
+        <p class="font-bold">Lorenzo Olmo Marchal | Tesis de Máster 2025</p>
+        <p>Universidad de California San Diego</p>
+        <div class="flex justify-center space-x-6 mt-4">
+            <a href="index_es.html" class="hover:underline">Volver a la Página Principal</a>
+            <a href="https://www.linkedin.com/in/lorenzo-olmo-marchal-b80508271/" target="_blank" class="hover:underline">LinkedIn</a>
+        </div>
+    </footer>
+
+    <script>
+        const wrapLabels = (label, maxLength) => {
+            if (typeof label !== 'string') return label;
+            if (label.length <= maxLength) return label;
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+            for (const word of words) {
+                if ((currentLine + word).length > maxLength) {
+                    lines.push(currentLine.trim());
+                    currentLine = '';
+                }
+                currentLine += word + ' ';
+            }
+            lines.push(currentLine.trim());
+            return lines;
+        };
+
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+                return label.join(' ');
+            }
+            return label;
+        };
+        
+        const performanceData = {
+            labels: ['SlideLab', 'STAMP', 'CLAM', 'SlideFlow', 'TiaToolBox'],
+            datasets: [{
+                label: 'Puntuación Dice Media',
+                data: [0.741, 0.714, 0.665, 0.613, 0.353],
+                backgroundColor: ['#FCBF49', '#EAE2B7', '#EAE2B7', '#EAE2B7', '#EAE2B7'],
+                borderColor: '#003049',
+                borderWidth: 2,
+            }]
+        };
+
+        new Chart(document.getElementById('performanceChart'), {
+            type: 'bar',
+            data: performanceData,
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Puntuación Dice vs. Realidad' }
+                    }
+                },
+                plugins: {
+                    legend: { display: false },
+                    title: { display: true, text: 'Comparación del Rendimiento en Segmentación de Tejidos', font: { size: 18 } },
+                    tooltip: { callbacks: { title: tooltipTitleCallback } }
+                }
+            }
+        });
+
+        const ballData = {
+            labels: ['CD10', 'CD34', 'CD24', 'FSC', 'SSC', 'CD19', 'CD22'],
+            datasets: [{
+                label: 'PAC Alto (B-ALL)',
+                data: [
+                    {x: 'CD10', y: 0.9, r: 25}, 
+                    {x: 'CD34', y: 0.85, r: 22},
+                    {x: 'CD24', y: 0.7, r: 18},
+                    {x: 'FSC', y: 0.3, r: 10},
+                    {x: 'SSC', y: 0.2, r: 8},
+                    {x: 'CD19', y: 0.5, r: 12},
+                    {x: 'CD22', y: 0.4, r: 11},
+                ],
+                backgroundColor: 'rgba(214, 40, 40, 0.7)',
+                borderColor: '#D62828'
+            }, {
+                label: 'PAC Bajo (No B-ALL)',
+                data: [
+                    {x: 'CD10', y: 0.2, r: 8}, 
+                    {x: 'CD34', y: 0.1, r: 5},
+                    {x: 'CD24', y: 0.8, r: 20},
+                    {x: 'FSC', y: 0.9, r: 25},
+                    {x: 'SSC', y: 0.95, r: 28},
+                    {x: 'CD19', y: 0.4, r: 11},
+                    {x: 'CD22', y: 0.35, r: 10},
+                ],
+                backgroundColor: 'rgba(0, 48, 73, 0.7)',
+                borderColor: '#003049'
+            }]
+        };
+
+        new Chart(document.getElementById('ballChart'), {
+            type: 'bubble',
+            data: ballData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        title: { display: true, text: 'Expresión Mediana de Características' }
+                    },
+                    x: {
+                        title: { display: true, text: 'Marcadores Celulares' }
+                    }
+                },
+                plugins: {
+                    title: { display: true, text: 'PAC Distingue Células B-ALL por Expresión de Biomarcadores', font: { size: 16 } },
+                    tooltip: {
+                        callbacks: {
+                            title: tooltipTitleCallback,
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                label += `Expresión: ${context.parsed.y}`;
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
